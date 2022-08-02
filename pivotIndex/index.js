@@ -3,44 +3,47 @@
  * @return {number}
  */
 var pivotIndex = function (nums) {
-  let pivot = -1;
-  let leftSum;
-  let rightSum;
+  let pivot = -1,
+    leftSum = 0,
+    rightSum = 0;
 
-  leftSum = left(nums);
-  rightSum = right(nums);
+  for (let i = 0; i < nums.length; i++) {
+    leftSum = arraySum(nums.slice(-0, i));
+    rightSum = arraySum(nums.slice(i + 1));
 
-  let join = leftSum.concat(rightSum);
-  let common = [];
-
-  for (let i = 0; i < join.length; i++) {
-    for (let j = 0; j < join.length; j++) {
-      if (i !== j && join[i] === join[j]) {
-        common.push(i, j);
-      }
+    if (rightSum === leftSum) {
+      return (pivot = i);
     }
   }
-  console.log(leftSum);
-  console.log(rightSum);
-  console.log(join);
-  console.log(common);
+
+  return pivot;
 };
 
-var left = function (nums) {
-  for (let i = 1; i < nums.length; i++) {
-    console.log(nums[i]);
-    nums[i] = nums[i] + nums[i - 1];
+const arraySum = (nums) => {
+  let sum = 0;
+
+  if (nums.length === 0) return 0;
+  if (nums.length === 1) return nums[0];
+  ``;
+  for (let i = 0; i < nums.length; i++) {
+    sum += nums[i];
   }
-
-  return nums;
+  return sum;
 };
 
-var right = function (nums) {
-  for (let i = nums.length - 1; i > 0; i--) {
-    nums[i] = nums[i] + nums[i + 1];
-  }
+console.log(pivotIndex([-1, -1, 0, 0, -1, -1]));
 
-  return nums;
-};
-
-pivotIndex([1, 7, 3, 6, 5, 6]);
+// /**
+//  * @param {number[]} nums
+//  * @return {number}
+//  */
+// var pivotIndex = function (nums) {
+//   let sum = 0,
+//     leftsum = 0;
+//   nums.map((x) => (sum += x));
+//   for (let i = 0; i < nums.length; ++i) {
+//     if (leftsum == sum - leftsum - nums[i]) return i;
+//     leftsum += nums[i];
+//   }
+//   return -1;
+// };
